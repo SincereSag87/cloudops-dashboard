@@ -34,12 +34,14 @@ export default function ServerTable() {
   if (error) {
     return (
       <section className="mt-8 rounded-xl border border-red-500/30 bg-red-500/10 p-8 text-center">
-        <p className="font-medium text-red-300">{error}</p>
+        <p className="font-medium text-red-600 dark:text-red-300">
+          {error}
+        </p>
 
         <button
           type="button"
           onClick={() => void reload()}
-          className="mt-4 rounded-lg bg-red-400 px-4 py-2 font-semibold text-slate-950 transition hover:bg-red-300"
+          className="mt-4 rounded-lg bg-red-500 px-4 py-2 font-semibold text-white transition hover:bg-red-400"
         >
           Retry
         </button>
@@ -48,14 +50,14 @@ export default function ServerTable() {
   }
 
   return (
-    <section className="mt-8 overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-lg">
-      <div className="flex flex-col gap-4 border-b border-slate-800 p-5 md:flex-row md:items-center md:justify-between">
+    <section className="theme-surface theme-border mt-8 overflow-hidden rounded-xl border shadow-lg">
+      <div className="theme-border flex flex-col gap-4 border-b p-5 md:flex-row md:items-center md:justify-between">
         <input
           type="search"
           placeholder="Search hostname, location, or IP..."
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
-          className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 text-slate-200 outline-none transition placeholder:text-slate-500 focus:border-cyan-500 md:max-w-md"
+          className="theme-surface-muted theme-border theme-text-primary w-full rounded-lg border px-4 py-2 outline-none transition placeholder:text-slate-500 focus:border-cyan-500 md:max-w-md"
         />
 
         <select
@@ -65,7 +67,7 @@ export default function ServerTable() {
               event.target.value as "All" | Server["status"],
             )
           }
-          className="rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 text-slate-200 outline-none focus:border-cyan-500"
+          className="theme-surface-muted theme-border theme-text-primary rounded-lg border px-4 py-2 outline-none focus:border-cyan-500"
         >
           <option value="All">All statuses</option>
           <option value="Online">Online</option>
@@ -75,8 +77,8 @@ export default function ServerTable() {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[800px] text-left text-sm text-slate-300">
-          <thead className="bg-slate-800 text-slate-200">
+        <table className="theme-text-secondary w-full min-w-[800px] text-left text-sm">
+          <thead className="theme-surface-muted theme-text-primary">
             <tr>
               <th className="px-6 py-4">Hostname</th>
               <th className="px-6 py-4">Location</th>
@@ -91,18 +93,22 @@ export default function ServerTable() {
             {filteredServers.map((server) => (
               <tr
                 key={server.id}
-                className="border-t border-slate-800 transition hover:bg-slate-800/70"
+                className="theme-border border-t transition hover:bg-slate-100 dark:hover:bg-slate-800/70"
               >
-                <td className="px-6 py-4 font-medium text-white">
+                <td className="theme-text-primary px-6 py-4 font-medium">
                   {server.hostname}
                 </td>
+
                 <td className="px-6 py-4">{server.location}</td>
+
                 <td className="px-6 py-4 font-mono text-xs">
                   {server.ipAddress}
                 </td>
+
                 <td className="px-6 py-4">
                   <StatusBadge status={server.status} />
                 </td>
+
                 <td className="px-6 py-4">{server.cpu}%</td>
                 <td className="px-6 py-4">{server.memory}%</td>
               </tr>
@@ -112,7 +118,7 @@ export default function ServerTable() {
       </div>
 
       {filteredServers.length === 0 && (
-        <p className="p-8 text-center text-slate-400">
+        <p className="theme-text-muted p-8 text-center">
           No servers match the selected filters.
         </p>
       )}
