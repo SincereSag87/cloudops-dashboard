@@ -1,3 +1,6 @@
+import CPUChart from "../components/charts/CPUChart";
+import DeploymentChart from "../components/charts/DeploymentChart";
+import MemoryChart from "../components/charts/MemoryChart";
 import DashboardCard from "../components/DashboardCard";
 import ServerTable from "../components/ServerTable";
 
@@ -35,6 +38,14 @@ export default function Dashboard() {
         </h2>
 
         <ServerTable />
+    </div>
+
+    <div className="mt-8 grid gap-6 xl:grid-cols-2">
+        <CPUChart />
+        <MemoryChart />
+    </div>
+    <div className="mt-6">
+        <DeploymentChart />
     </div>
     </main>
   );
