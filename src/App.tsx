@@ -11,7 +11,7 @@ import Settings from "./pages/Settings";
 
 function AppLayout() {
   return (
-    <div className="flex min-h-screen bg-slate-950">
+    <div className="flex min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <Sidebar />
 
       <div className="flex min-w-0 flex-1 flex-col">

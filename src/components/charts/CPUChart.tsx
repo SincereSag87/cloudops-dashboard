@@ -7,6 +7,7 @@ import {
     XAxis,
     YAxis,
   } from "recharts";
+  import { useTheme } from "../../context/ThemeContext";
   
   const cpuData = [
     { time: "8 AM", usage: 38 },
@@ -20,14 +21,24 @@ import {
   ];
   
   export default function CPUChart() {
+    const { resolvedTheme } = useTheme();
+  
+    const isDark = resolvedTheme === "dark";
+  
+    const gridColor = isDark ? "#1e293b" : "#e2e8f0";
+    const axisColor = isDark ? "#64748b" : "#64748b";
+    const tooltipBackground = isDark ? "#0f172a" : "#ffffff";
+    const tooltipBorder = isDark ? "#334155" : "#cbd5e1";
+    const tooltipText = isDark ? "#e2e8f0" : "#0f172a";
+  
     return (
-      <section className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+      <section className="theme-surface theme-border rounded-xl border p-6">
         <div className="mb-6">
-          <h2 className="text-lg font-semibold text-white">
+          <h2 className="theme-text-primary text-lg font-semibold">
             CPU Utilization
           </h2>
   
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="theme-text-muted mt-1 text-sm">
             Average usage across active servers.
           </p>
         </div>
@@ -35,17 +46,20 @@ import {
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={cpuData}>
-              <CartesianGrid stroke="#1e293b" strokeDasharray="4 4" />
+              <CartesianGrid
+                stroke={gridColor}
+                strokeDasharray="4 4"
+              />
   
               <XAxis
                 dataKey="time"
-                stroke="#64748b"
+                stroke={axisColor}
                 tickLine={false}
                 axisLine={false}
               />
   
               <YAxis
-                stroke="#64748b"
+                stroke={axisColor}
                 tickLine={false}
                 axisLine={false}
                 domain={[0, 100]}
@@ -54,11 +68,12 @@ import {
   
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#0f172a",
-                  border: "1px solid #334155",
+                  backgroundColor: tooltipBackground,
+                  border: `1px solid ${tooltipBorder}`,
                   borderRadius: "8px",
+                  color: tooltipText,
                 }}
-                labelStyle={{ color: "#e2e8f0" }}
+                labelStyle={{ color: tooltipText }}
                 itemStyle={{ color: "#22d3ee" }}
                 formatter={(value) => [`${value}%`, "CPU Usage"]}
               />
