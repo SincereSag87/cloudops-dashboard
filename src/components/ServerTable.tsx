@@ -1,60 +1,15 @@
 import { useMemo, useState } from "react";
+import { useServers } from "../hooks/useServers";
 import type { Server } from "../types/Server";
+import SkeletonTable from "./SkeletonTable";
 import StatusBadge from "./StatusBadge";
 
-const servers: Server[] = [
-  {
-    id: 1,
-    hostname: "gpu-node-01",
-    location: "Ohio",
-    ipAddress: "10.0.0.21",
-    status: "Online",
-    cpu: 42,
-    memory: 68,
-  },
-  {
-    id: 2,
-    hostname: "gpu-node-02",
-    location: "Virginia",
-    ipAddress: "10.0.0.22",
-    status: "Maintenance",
-    cpu: 12,
-    memory: 38,
-  },
-  {
-    id: 3,
-    hostname: "gpu-node-03",
-    location: "Texas",
-    ipAddress: "10.0.0.23",
-    status: "Offline",
-    cpu: 0,
-    memory: 0,
-  },
-  {
-    id: 4,
-    hostname: "gpu-node-04",
-    location: "Oregon",
-    ipAddress: "10.0.0.24",
-    status: "Online",
-    cpu: 73,
-    memory: 81,
-  },
-  {
-    id: 5,
-    hostname: "gpu-node-05",
-    location: "New York",
-    ipAddress: "10.0.0.25",
-    status: "Online",
-    cpu: 35,
-    memory: 52,
-  },
-];
-
 export default function ServerTable() {
+  const { servers, isLoading, error, reload } = useServers();
+
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<
-    "All" | Server["status"]
-  >("All");
+  const [statusFilter, setStatusFilter] =
+    useState<"All" | Server["status"]>("All");
 
   const filteredServers = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -70,7 +25,27 @@ export default function ServerTable() {
 
       return matchesSearch && matchesStatus;
     });
-  }, [searchTerm, statusFilter]);
+  }, [servers, searchTerm, statusFilter]);
+
+  if (isLoading) {
+    return <SkeletonTable />;
+  }
+
+  if (error) {
+    return (
+      <section className="mt-8 rounded-xl border border-red-500/30 bg-red-500/10 p-8 text-center">
+        <p className="font-medium text-red-300">{error}</p>
+
+        <button
+          type="button"
+          onClick={() => void reload()}
+          className="mt-4 rounded-lg bg-red-400 px-4 py-2 font-semibold text-slate-950 transition hover:bg-red-300"
+        >
+          Retry
+        </button>
+      </section>
+    );
+  }
 
   return (
     <section className="mt-8 overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-lg">
