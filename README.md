@@ -1,75 +1,187 @@
-# React + TypeScript + Vite
+# ☁️ CloudOps Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> A modern enterprise cloud infrastructure dashboard built with **React**, **TypeScript**, **Tailwind CSS**, and **React Router**.
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-19-blue?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-8-purple?logo=vite)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?logo=tailwind-css)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 📖 Overview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+CloudOps Dashboard is an enterprise-inspired web application that simulates the type of internal operations platform used by cloud providers and infrastructure engineering teams.
 
-## Expanding the ESLint configuration
+The application provides a centralized interface for monitoring servers, reviewing deployments, checking network health, and managing operational settings through a clean and responsive user interface.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+This project was built to strengthen my frontend engineering skills while demonstrating modern React architecture and software engineering best practices.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ✨ Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- 📊 Infrastructure Dashboard
+- 🖥️ Server Inventory
+- 🔍 Search and Filtering
+- 🟢 Status Badges
+- 🚀 Deployment Tracking
+- 🌐 Network Monitoring
+- ⚙️ Settings Page
+- 📱 Responsive Design
+- ⚛️ React Router Navigation
+- 🎨 Modern Tailwind CSS Interface
+- 💻 TypeScript for Type Safety
 
+---
+
+## 🛠️ Built With
+
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- React Icons
+- Axios
+- Git
+- GitHub
+
+---
+
+# 📸 Screenshots
+
+## Dashboard
+
+![Dashboard](./screenshots/dashboard.png)
+
+---
+
+## Server Inventory
+
+![Servers](./screenshots/servers.png)
+
+---
+
+## Network Operations
+
+![Network](./screenshots/network.png)
+
+---
+
+## Deployments
+
+![Deployments](./screenshots/deployments.png)
+
+---
+
+## Settings
+
+![Settings](./screenshots/settings.png)
+
+---
+
+# 🚀 Getting Started
+
+Clone the repository:
+
+```bash
+git clone https://github.com/SincereSag87/cloudops-dashboard.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Navigate into the project:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+cd cloudops-dashboard
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open your browser:
 
 ```
+http://localhost:5173
+```
+
+---
+
+# 📁 Project Structure
+
+```text
+src/
+│
+├── components/
+├── pages/
+├── types/
+├── assets/
+├── App.tsx
+└── main.tsx
+```
+
+---
+
+# 📅 Roadmap
+
+## Completed
+
+- React + TypeScript setup
+- Tailwind CSS
+- Dashboard Layout
+- Server Inventory
+- Search & Filtering
+- Status Badges
+- React Router
+- Multi-page Navigation
+
+## Coming Soon
+
+- 📈 Analytics Dashboard
+- 📊 Interactive Charts
+- 🌙 Dark / Light Theme
+- 🔐 Authentication
+- 🌐 REST API Integration
+- 🔔 Notifications
+- 🐳 Docker Support
+- ⚙️ GitHub Actions (CI/CD)
+- ☁️ Vercel Deployment
+
+---
+
+# 📚 What I Learned
+
+This project strengthened my experience with:
+
+- React Components
+- TypeScript Interfaces
+- React Hooks
+- Client-side Routing
+- Component Reusability
+- Responsive Design
+- Git Version Control
+- Modern Frontend Architecture
+
+---
+
+# 👨‍💻 Author
+
+**Raymond Wannamaker**
+
+- GitHub: https://github.com/SincereSag87
+- LinkedIn: https://www.linkedin.com/in/raymondwannamaker/
+
+---
+
+## ⭐ Support
+
+If you found this project interesting, consider giving it a ⭐ on GitHub.
