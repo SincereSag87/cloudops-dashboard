@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -10,18 +11,53 @@ import {
 } from "recharts";
 import { useTheme } from "../../context/ThemeContext";
 
-const deploymentData = [
-  { day: "Mon", successful: 12, failed: 1 },
-  { day: "Tue", successful: 16, failed: 2 },
-  { day: "Wed", successful: 14, failed: 1 },
-  { day: "Thu", successful: 19, failed: 3 },
-  { day: "Fri", successful: 22, failed: 2 },
-  { day: "Sat", successful: 8, failed: 0 },
-  { day: "Sun", successful: 6, failed: 1 },
+type DeploymentPoint = {
+  time: string;
+  successful: number;
+  failed: number;
+};
+
+const deploymentData: DeploymentPoint[] = [
+  { time: "8:00", successful: 12, failed: 1 },
+  { time: "9:00", successful: 16, failed: 2 },
+  { time: "10:00", successful: 14, failed: 1 },
+  { time: "11:00", successful: 19, failed: 3 },
+  { time: "12:00", successful: 22, failed: 2 },
+  { time: "1:00", successful: 8, failed: 0 },
+  { time: "2:00", successful: 6, failed: 1 },
 ];
+
+function formatCurrentTime() {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(new Date());
+}
 
 export default function DeploymentChart() {
   const { resolvedTheme } = useTheme();
+  const [liveDeploymentData, setLiveDeploymentData] =
+    useState<DeploymentPoint[]>(deploymentData);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      const successful = Math.floor(Math.random() * 18) + 5;
+      const failed = Math.floor(Math.random() * 4);
+
+      setLiveDeploymentData((currentData) => [
+        ...currentData.slice(1),
+        {
+          time: formatCurrentTime(),
+          successful,
+          failed,
+        },
+      ]);
+    }, 7000);
+
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, []);
 
   const isDark = resolvedTheme === "dark";
 
@@ -39,20 +75,20 @@ export default function DeploymentChart() {
         </h2>
 
         <p className="theme-text-muted mt-1 text-sm">
-          Successful and failed deployments during the last seven days.
+          Live successful and failed deployment activity.
         </p>
       </div>
 
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={deploymentData}>
+          <BarChart data={liveDeploymentData}>
             <CartesianGrid
               stroke={gridColor}
               strokeDasharray="4 4"
             />
 
             <XAxis
-              dataKey="day"
+              dataKey="time"
               stroke={axisColor}
               tickLine={false}
               axisLine={false}
@@ -87,6 +123,8 @@ export default function DeploymentChart() {
               name="Successful"
               fill="#22d3ee"
               radius={[6, 6, 0, 0]}
+              isAnimationActive
+              animationDuration={500}
             />
 
             <Bar
@@ -94,6 +132,8 @@ export default function DeploymentChart() {
               name="Failed"
               fill="#ef4444"
               radius={[6, 6, 0, 0]}
+              isAnimationActive
+              animationDuration={500}
             />
           </BarChart>
         </ResponsiveContainer>

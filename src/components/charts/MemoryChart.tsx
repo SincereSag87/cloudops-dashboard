@@ -8,6 +8,7 @@ import {
     YAxis,
   } from "recharts";
   import { useTheme } from "../../context/ThemeContext";
+  import { useLiveMetric } from "../../hooks/useLiveMetric";
   
   const memoryData = [
     { time: "8 AM", usage: 54 },
@@ -22,6 +23,13 @@ import {
   
   export default function MemoryChart() {
     const { resolvedTheme } = useTheme();
+  
+    const liveMemoryData = useLiveMetric({
+      initialData: memoryData,
+      min: 45,
+      max: 92,
+      intervalMs: 6000,
+    });
   
     const isDark = resolvedTheme === "dark";
   
@@ -45,7 +53,7 @@ import {
   
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={memoryData}>
+            <AreaChart data={liveMemoryData}>
               <defs>
                 <linearGradient
                   id="memoryFill"
@@ -109,6 +117,8 @@ import {
                 stroke="#a78bfa"
                 strokeWidth={3}
                 fill="url(#memoryFill)"
+                isAnimationActive
+                animationDuration={500}
               />
             </AreaChart>
           </ResponsiveContainer>

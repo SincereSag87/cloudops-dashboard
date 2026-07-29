@@ -6,8 +6,7 @@ import {
     useState,
     type ReactNode,
   } from "react";
-  
-  type UserRole = "Admin" | "Operator" | "Viewer";
+  import type { UserRole } from "../types/Role";
   
   type User = {
     name: string;
@@ -20,6 +19,7 @@ import {
     isAuthenticated: boolean;
     login: (email: string, password: string) => boolean;
     logout: () => void;
+    setRole: (role: UserRole) => void;
   };
   
   const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -68,12 +68,24 @@ import {
       setUser(null);
     }
   
+    function setRole(role: UserRole) {
+      setUser((currentUser) =>
+        currentUser
+          ? {
+              ...currentUser,
+              role,
+            }
+          : null,
+      );
+    }
+  
     const value = useMemo(
       () => ({
         user,
         isAuthenticated: user !== null,
         login,
         logout,
+        setRole,
       }),
       [user],
     );
