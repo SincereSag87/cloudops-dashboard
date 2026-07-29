@@ -8,6 +8,7 @@ import {
     YAxis,
   } from "recharts";
   import { useTheme } from "../../context/ThemeContext";
+  import { useLiveMetric } from "../../hooks/useLiveMetric";
   
   const cpuData = [
     { time: "8 AM", usage: 38 },
@@ -23,10 +24,17 @@ import {
   export default function CPUChart() {
     const { resolvedTheme } = useTheme();
   
+    const liveCpuData = useLiveMetric({
+      initialData: cpuData,
+      min: 35,
+      max: 90,
+      intervalMs: 5000,
+    });
+  
     const isDark = resolvedTheme === "dark";
   
     const gridColor = isDark ? "#1e293b" : "#e2e8f0";
-    const axisColor = isDark ? "#64748b" : "#64748b";
+    const axisColor = "#64748b";
     const tooltipBackground = isDark ? "#0f172a" : "#ffffff";
     const tooltipBorder = isDark ? "#334155" : "#cbd5e1";
     const tooltipText = isDark ? "#e2e8f0" : "#0f172a";
@@ -45,7 +53,7 @@ import {
   
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={cpuData}>
+            <LineChart data={liveCpuData}>
               <CartesianGrid
                 stroke={gridColor}
                 strokeDasharray="4 4"
@@ -85,6 +93,8 @@ import {
                 strokeWidth={3}
                 dot={{ fill: "#22d3ee", strokeWidth: 0, r: 4 }}
                 activeDot={{ r: 6 }}
+                isAnimationActive
+                animationDuration={500}
               />
             </LineChart>
           </ResponsiveContainer>

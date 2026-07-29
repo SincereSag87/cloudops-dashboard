@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import type { UserRole } from "../types/Role";
 import NotificationCenter from "./NotificationCenter";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 export default function Header() {
-  const { user, logout } = useAuth();
+  const { user, logout, setRole } = useAuth();
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -37,6 +38,18 @@ export default function Header() {
   function handleSettings() {
     setIsMenuOpen(false);
     navigate("/settings");
+  }
+
+  function handleRoleChange(role: UserRole) {
+    setRole(role);
+
+    if (role === "Viewer") {
+      navigate("/", { replace: true });
+    }
+
+    if (role === "Operator" && window.location.pathname === "/settings") {
+      navigate("/", { replace: true });
+    }
   }
 
   const initials =
@@ -100,14 +113,38 @@ export default function Header() {
                 </span>
               </div>
 
-              <div className="p-2">
-                <button
-                  type="button"
-                  onClick={handleSettings}
-                  className="theme-text-secondary w-full rounded-lg px-3 py-2 text-left text-sm transition hover:bg-slate-200 dark:hover:bg-slate-800"
+              <div className="theme-border border-b p-3">
+                <label
+                  htmlFor="active-role"
+                  className="theme-text-muted block text-xs font-semibold uppercase tracking-wide"
                 >
-                  Settings
-                </button>
+                  Active role
+                </label>
+
+                <select
+                  id="active-role"
+                  value={user?.role ?? "Viewer"}
+                  onChange={(event) =>
+                    handleRoleChange(event.target.value as UserRole)
+                  }
+                  className="theme-surface-muted theme-border theme-text-primary mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-cyan-500"
+                >
+                  <option value="Admin">Admin</option>
+                  <option value="Operator">Operator</option>
+                  <option value="Viewer">Viewer</option>
+                </select>
+              </div>
+
+              <div className="p-2">
+                {user?.role === "Admin" && (
+                  <button
+                    type="button"
+                    onClick={handleSettings}
+                    className="theme-text-secondary w-full rounded-lg px-3 py-2 text-left text-sm transition hover:bg-slate-200 dark:hover:bg-slate-800"
+                  >
+                    Settings
+                  </button>
+                )}
 
                 <button
                   type="button"

@@ -1,33 +1,6 @@
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FaBell } from "react-icons/fa";
-import type { Notification } from "../types/Notification";
-
-const initialNotifications: Notification[] = [
-  {
-    id: 1,
-    title: "Server offline",
-    message: "gpu-node-03 is currently unavailable.",
-    time: "2 minutes ago",
-    type: "error",
-    isRead: false,
-  },
-  {
-    id: 2,
-    title: "Deployment delayed",
-    message: "DEP-2047 is taking longer than expected.",
-    time: "15 minutes ago",
-    type: "warning",
-    isRead: false,
-  },
-  {
-    id: 3,
-    title: "Deployment completed",
-    message: "customer-api v2.14.0 deployed successfully.",
-    time: "1 hour ago",
-    type: "success",
-    isRead: false,
-  },
-];
+import { useNotifications } from "../hooks/useNotifications";
 
 const typeStyles = {
   success: "bg-emerald-500",
@@ -36,25 +9,15 @@ const typeStyles = {
 };
 
 export default function NotificationCenter() {
-  const [notifications, setNotifications] =
-    useState<Notification[]>(initialNotifications);
+  const {
+    notifications,
+    unreadCount,
+    markAllAsRead,
+    markAsRead,
+  } = useNotifications();
 
   const [isOpen, setIsOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
-
-  const unreadCount = useMemo(
-    () => notifications.filter((notification) => !notification.isRead).length,
-    [notifications],
-  );
-
-  function markAllAsRead() {
-    setNotifications((currentNotifications) =>
-      currentNotifications.map((notification) => ({
-        ...notification,
-        isRead: true,
-      })),
-    );
-  }
 
   return (
     <div ref={panelRef} className="relative">
@@ -99,7 +62,8 @@ export default function NotificationCenter() {
             {notifications.map((notification) => (
               <article
                 key={notification.id}
-                className={`theme-border border-b px-5 py-4 last:border-b-0 ${
+                onClick={() => markAsRead(notification.id)}
+                className={`theme-border cursor-pointer border-b px-5 py-4 transition last:border-b-0 hover:bg-slate-100 dark:hover:bg-slate-800/70 ${
                   notification.isRead ? "opacity-60" : ""
                 }`}
               >
